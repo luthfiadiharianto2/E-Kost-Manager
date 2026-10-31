@@ -61,7 +61,7 @@ export const TenantComplaintsPage: React.FC = () => {
 
   return (
     <TenantLayout>
-      <div className="bg-white rounded-xl shadow-sm p-8">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-8">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-orange-500 rounded-lg">

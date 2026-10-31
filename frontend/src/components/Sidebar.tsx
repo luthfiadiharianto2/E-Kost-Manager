@@ -73,7 +73,7 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <aside className={`hidden md:flex flex-col ${isCollapsed ? 'w-20' : 'w-56'} bg-navy-900 text-white rounded-r-3xl overflow-hidden py-6 px-4 transition-all duration-300 h-full`}>
+    <aside className={`hidden md:flex flex-col ${isCollapsed ? 'w-20' : 'w-56'} bg-navy-900 text-white rounded-r-3xl overflow-y-auto overflow-x-hidden py-6 px-4 transition-all duration-300 h-full`}>
       {/* Header Section */}
       <div className={`flex items-center ${isCollapsed ? 'justify-center relative' : 'justify-between'} mb-6`}>
         {isCollapsed && (

@@ -41,15 +41,21 @@ export const LoginPage: React.FC = () => {
     // Initialize AOS
     try {
       // Initialize AOS
+      // Animasi cukup sekali dan singkat agar scroll naik-turun tetap ringan
       AOS.init({
-        duration: 1000,
+        duration: 600,
         easing: 'ease-out-cubic',
-        once: false, // Allow animation to repeat on scroll back up
-        offset: 50,
+        once: true,
+        offset: 40,
         delay: 0,
-        disable: false,
+        disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
         startEvent: 'DOMContentLoaded',
       });
+
+      // Scroll halus untuk tautan #anchor, hanya di halaman ini
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.style.scrollBehavior = 'smooth';
+      }
       
       // Refresh AOS after DOM is ready
       setTimeout(() => {
@@ -73,6 +79,7 @@ export const LoginPage: React.FC = () => {
     
     // Cleanup
     return () => {
+      document.documentElement.style.scrollBehavior = '';
       if (resizeHandler) {
         window.removeEventListener('resize', resizeHandler);
       }
@@ -114,9 +121,9 @@ export const LoginPage: React.FC = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-navy-900/95 border-t border-white/10">
             <div className="px-4 py-5 space-y-5">
-              <a className="block text-base text-white/80 hover:text-white transition-colors font-medium" href="#features">Beranda</a>
-              <a className="block text-base text-white/80 hover:text-white transition-colors font-medium" href="#about">Tentang Kami</a>
-              <a className="block text-base text-white/80 hover:text-white transition-colors font-medium" href="#contact">Hubungi Kami</a>
+              <a onClick={() => setIsMobileMenuOpen(false)} className="block text-base text-white/80 hover:text-white transition-colors font-medium" href="#features">Beranda</a>
+              <a onClick={() => setIsMobileMenuOpen(false)} className="block text-base text-white/80 hover:text-white transition-colors font-medium" href="#about">Tentang Kami</a>
+              <a onClick={() => setIsMobileMenuOpen(false)} className="block text-base text-white/80 hover:text-white transition-colors font-medium" href="#contact">Hubungi Kami</a>
               <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
                 <button onClick={() => navigate('/auth/login')} className="inline-flex items-center justify-center gap-2 rounded-md border border-white/20 px-4 py-3 hover:bg-white/10 transition-colors text-base">
                   <LogIn className="w-5 h-5" /> Log In

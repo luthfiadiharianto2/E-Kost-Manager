@@ -48,8 +48,8 @@ export const AdminComplaintsPage: React.FC = () => {
 
   return (
     <AdminLayout>
-      <div className="bg-white rounded-xl shadow-sm p-8">
-        <div className="flex items-center justify-between mb-6">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="p-3 bg-orange-500 rounded-lg">
               <FileText className="w-6 h-6 text-white" />

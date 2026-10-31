@@ -25,7 +25,7 @@ export const AdminAddPropertyPage: React.FC = () => {
 
   return (
     <AdminLayout>
-      <div className="bg-white rounded-xl shadow-sm p-8">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-8">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-3 bg-blue-500 rounded-lg">
             <Building2 className="w-6 h-6 text-white" />

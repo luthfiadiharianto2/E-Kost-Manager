@@ -23,7 +23,7 @@ export const AdminFinancePage: React.FC = () => {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        <div className="bg-white rounded-xl shadow-sm p-8">
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-3 bg-yellow-500 rounded-lg">
               <CreditCard className="w-6 h-6 text-white" />

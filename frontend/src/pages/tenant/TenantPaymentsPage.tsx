@@ -190,7 +190,7 @@ export const TenantPaymentsPage: React.FC = () => {
 
   return (
     <TenantLayout>
-      <div className="bg-white rounded-xl shadow-sm p-8">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Pembayaran</h2>
           <button className="bg-yellow-400 hover:bg-yellow-500 text-navy-900 px-4 py-2 rounded-lg font-semibold transition-colors flex items-center">
@@ -253,8 +253,8 @@ export const TenantPaymentsPage: React.FC = () => {
 
       {/* QRIS Payment Modal */}
       {showQrisModal && selectedPayment && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-gray-900">Pembayaran QRIS</h2>
               <button

@@ -281,7 +281,7 @@ export const AdminFacilitiesPage: React.FC = () => {
 
   return (
     <AdminLayout>
-      <div className="bg-white rounded-xl shadow-sm p-8">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-8">
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <div className="p-3 bg-blue-500 rounded-lg">
@@ -291,8 +291,8 @@ export const AdminFacilitiesPage: React.FC = () => {
         </div>
 
         {/* Info Properti */}
-        <div className="bg-gray-50 rounded-lg p-6 mb-6">
-          <div className="flex items-start justify-between">
+        <div className="bg-gray-50 rounded-lg p-4 sm:p-6 mb-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
                 <Building2 className="w-6 h-6 text-blue-600" />
@@ -306,7 +306,7 @@ export const AdminFacilitiesPage: React.FC = () => {
             </div>
             <button
               onClick={() => setActiveTab('edit-property')}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+              className="self-start shrink-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
             >
               <Edit className="w-4 h-4" />
               Edit Properti
@@ -316,10 +316,10 @@ export const AdminFacilitiesPage: React.FC = () => {
 
         {/* Tabs */}
         <div className="border-b border-gray-200 mb-6">
-          <nav className="flex space-x-8">
+          <nav className="flex space-x-6 sm:space-x-8 overflow-x-auto">
             <button
               onClick={() => setActiveTab('rooms')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+              className={`py-4 px-1 whitespace-nowrap border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'rooms'
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -336,7 +336,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                 setEditingRoomTypeId(null);
                 setRoomTypeForm({ name: '', price: '', facilities: '', description: '' });
               }}
-              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+              className={`py-4 px-1 whitespace-nowrap border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'room-types' || activeTab === 'add-room-type' || activeTab === 'edit-room-type'
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -349,7 +349,7 @@ export const AdminFacilitiesPage: React.FC = () => {
             </button>
             <button
               onClick={() => setActiveTab('add-room')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+              className={`py-4 px-1 whitespace-nowrap border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'add-room'
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'

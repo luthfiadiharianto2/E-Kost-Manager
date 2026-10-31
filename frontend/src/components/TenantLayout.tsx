@@ -12,7 +12,7 @@ export const TenantLayout: React.FC<TenantLayoutProps> = ({ children }) => {
   const { user, logout } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gray-50 flex overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 flex overflow-x-clip">
       {/* Desktop Sidebar */}
       <div className="hidden md:block fixed inset-y-0 left-0 z-30">
         <Sidebar />
@@ -21,12 +21,12 @@ export const TenantLayout: React.FC<TenantLayoutProps> = ({ children }) => {
       {/* Mobile Menu */}
       <MobileMenu />
 
-      <div className="flex-1 md:ml-56 w-full">
-        <header className="bg-white text-black border-b border-gray-200">
+      <div className="flex-1 min-w-0 md:ml-56 w-full">
+        <header className="sticky top-0 z-40 bg-white text-black border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between md:justify-end items-center py-4">
               {/* Mobile Logo - only visible on mobile */}
-              <div className="md:hidden flex items-center">
+              <div className="md:hidden flex items-center pl-12">
                 <div className="w-8 h-8 rounded-full bg-accent-400 flex items-center justify-center overflow-hidden">
                   <img src="/img/logo.png" alt="Logo" className="h-8 w-8 object-cover" />
                 </div>

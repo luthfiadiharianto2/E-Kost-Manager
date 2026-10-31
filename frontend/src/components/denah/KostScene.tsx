@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { Bounds, OrbitControls, OrthographicCamera, PerspectiveCamera, useBounds } from '@react-three/drei';
 import { BoxGeometry, InstancedMesh, MOUSE, Object3D, TOUCH } from 'three';
 import type { CellType, FootprintCell, KostLayout } from '../../lib/layoutPresets';
@@ -17,6 +17,8 @@ export interface KostSceneProps {
   selectedId: number | null;
   onSelect: (id: number) => void;
   resetKey: number;
+  /** false = kamera terkunci: geser vertikal men-scroll halaman, ketuk tetap memilih kamar */
+  interactive?: boolean;
 }
 
 const SLAB_H = 0.08;
@@ -147,7 +149,19 @@ const Building: React.FC<Omit<KostSceneProps, 'mode' | 'resetKey'> & { hovered: 
   );
 };
 
-const KostScene: React.FC<KostSceneProps> = ({ mode, resetKey, ...props }) => {
+/** OrbitControls selalu memasang touch-action:none; saat terkunci kembalikan ke pan-y. */
+const TouchAction: React.FC<{ interactive: boolean }> = ({ interactive }) => {
+  const gl = useThree((s) => s.gl);
+  const connected = useThree((s) => s.events.connected) as HTMLElement | undefined;
+  useEffect(() => {
+    // OrbitControls terpasang di elemen event R3F (pembungkus kanvas), bukan di <canvas>
+    const value = interactive ? 'none' : 'pan-y';
+    for (const el of [connected, gl.domElement]) if (el?.style) el.style.touchAction = value;
+  }, [gl, connected, interactive]);
+  return null;
+};
+
+const KostScene: React.FC<KostSceneProps> = ({ mode, resetKey, interactive = true, ...props }) => {
   const [hovered, setHovered] = useState<number | null>(null);
   const span = Math.max(props.layout.grid_cols, props.layout.grid_rows, 6);
   const fitDeps = `${props.floorFilter}|${props.exploded}|${props.layout.grid_cols}x${props.layout.grid_rows}x${props.layout.floors}`;
@@ -183,6 +197,7 @@ const KostScene: React.FC<KostSceneProps> = ({ mode, resetKey, ...props }) => {
 
       <OrbitControls
         makeDefault
+        enabled={interactive}
         enableRotate={mode === '3d'}
         enableDamping={false}
         screenSpacePanning
@@ -190,6 +205,7 @@ const KostScene: React.FC<KostSceneProps> = ({ mode, resetKey, ...props }) => {
         mouseButtons={mode === '3d' ? { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN } : { LEFT: MOUSE.PAN, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN }}
         touches={mode === '3d' ? { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN } : { ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_PAN }}
       />
+      <TouchAction interactive={interactive} />
     </Canvas>
   );
 };

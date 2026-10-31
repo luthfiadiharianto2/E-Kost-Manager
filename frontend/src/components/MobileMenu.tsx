@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, X, Home, User, Building2, Plus, CreditCard, Users, FileText, Map as MapIcon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -31,6 +31,21 @@ const MobileMenu: React.FC = () => {
   ];
 
   const items = user?.role === 'admin' ? adminItems : tenantItems;
+
+  // Kunci scroll halaman di belakang menu dan tutup dengan tombol Escape
+  useEffect(() => {
+    if (!isOpen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [isOpen]);
 
   const getActiveId = () => {
     const currentPath = location.pathname;
@@ -73,7 +88,10 @@ const MobileMenu: React.FC = () => {
       {/* Mobile Menu Overlay */}
       {isOpen && (
         <div className="md:hidden fixed inset-0 z-50 bg-black bg-opacity-50" onClick={() => setIsOpen(false)}>
-          <div className="fixed left-0 top-0 h-full w-80 bg-navy-900 text-white shadow-xl transform transition-transform duration-300 ease-in-out">
+          <div
+            className="fixed left-0 top-0 h-full w-80 max-w-[85vw] overflow-y-auto overscroll-contain bg-navy-900 text-white shadow-xl transform transition-transform duration-300 ease-in-out"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-navy-700">
               <button
