@@ -73,46 +73,41 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <aside className={`hidden md:flex flex-col ${isCollapsed ? 'w-20' : 'w-56'} bg-navy-900 text-white rounded-r-3xl overflow-y-auto overflow-x-hidden py-6 px-3 transition-all duration-300 h-full`}>
+    <aside className={`hidden md:block shrink-0 ${isCollapsed ? 'w-20' : 'w-56'} bg-navy-900 text-white rounded-r-3xl transition-all duration-300 min-h-screen`}>
+      <div className="sticky top-0 flex flex-col max-h-screen overflow-y-auto overflow-x-hidden py-6 px-3">
       {/* Header Section */}
-      <div className={`flex items-center ${isCollapsed ? 'justify-center relative' : 'justify-between pl-2'} mb-8`}>
-        {isCollapsed && (
-          <button
-            onClick={toggleSidebar}
-            className="absolute -right-2 top-0 p-1 rounded-full bg-yellow-400 text-navy-900 hover:bg-yellow-300 transition-all duration-200 z-10"
-          >
-            <Menu className="w-4 h-4" />
-          </button>
-        )}
+      <div className={`flex items-center ${isCollapsed ? 'flex-col gap-3' : 'justify-between pl-2'} mb-8`}>
 
         <button
           onClick={handleLogoClick}
           className={`flex items-center ${isCollapsed ? 'w-full justify-center' : ''}`}
         >
           {isCollapsed ? (
-            <img src="/img/logo.png" alt="E-Kost Manager" className="h-10 w-10 object-cover object-left" />
+            <img src="/img/logo.png" alt="E-Kost Manager" className="h-10 w-8 object-cover object-left" />
           ) : (
             <img src="/img/logo.png" alt="E-Kost Manager" className="h-9 w-auto" />
           )}
         </button>
 
-        {!isCollapsed && (
-          <button
-            onClick={toggleSidebar}
-            className="p-2 rounded-md hover:bg-yellow-400/20 hover:text-yellow-400 transition-all duration-200"
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </button>
-        )}
+        <button
+          onClick={toggleSidebar}
+          title={isCollapsed ? 'Buka menu' : 'Ciutkan menu'}
+          className="p-2 rounded-md text-white/75 hover:bg-white/10 hover:text-white transition-colors"
+        >
+          {isCollapsed ? <Menu className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />}
+        </button>
       </div>
 
       {/* Home Icon */}
       {isCollapsed && (
         <button
           onClick={handleHomeClick}
-          className="w-full flex items-center justify-center mb-4 p-3 rounded-full bg-accent-400/20 hover:bg-yellow-400/30 transition-all duration-200"
+          title="Dashboard"
+          className={`w-full flex items-center justify-center mb-1 p-3 rounded-lg transition-colors ${
+            active === 'dashboard' ? 'bg-yellow-400 text-navy-900' : 'text-white/75 hover:bg-white/10 hover:text-white'
+          }`}
         >
-          <Home className="w-5 h-5 text-yellow-400" />
+          <Home className="w-5 h-5" />
         </button>
       )}
 
@@ -173,6 +168,7 @@ const Sidebar: React.FC = () => {
           })}
         </div>
       </nav>
+      </div>
     </aside>
   );
 };

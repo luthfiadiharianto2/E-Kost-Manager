@@ -16,14 +16,14 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen bg-gray-50 flex overflow-x-clip">
       {/* Desktop Sidebar */}
-      <div className="hidden md:block fixed inset-y-0 left-0 z-30">
+      <div className="hidden md:flex shrink-0">
         <Sidebar />
       </div>
 
       {/* Mobile Menu */}
       <MobileMenu />
 
-      <div className="flex-1 min-w-0 md:ml-56 w-full">
+      <div className="flex-1 min-w-0">
         <header className="sticky top-0 z-40 bg-white text-black border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between md:justify-end items-center h-16">
