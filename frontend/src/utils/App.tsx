@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from '../contexts/AuthContext.tsx';
@@ -20,6 +20,10 @@ import { TenantComplaintsPage } from '../pages/tenant/TenantComplaintsPage';
 import { TenantProfilePage } from '../pages/tenant/TenantProfilePage';
 import AcceptInvite from '../pages/AcceptInvite';
 import { UnauthorizedPage } from '../pages/UnauthorizedPage.tsx';
+
+// Halaman Denah (memuat three.js) dimuat terpisah agar bundle halaman lain tidak membengkak
+const AdminLayoutPage = lazy(() => import('../pages/admin/AdminLayoutPage'));
+const TenantDenahPage = lazy(() => import('../pages/tenant/TenantDenahPage'));
 
 const AppRoutes: React.FC = () => {
   const { user } = useAuth();
@@ -87,6 +91,16 @@ const AppRoutes: React.FC = () => {
         }
       />
       <Route
+        path="/admin/layout"
+        element={
+          <ProtectedRoute requiredRole="admin">
+            <Suspense fallback={null}>
+              <AdminLayoutPage />
+            </Suspense>
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/tenant"
         element={
           <ProtectedRoute requiredRole="tenant">
@@ -123,6 +137,16 @@ const AppRoutes: React.FC = () => {
         element={
           <ProtectedRoute requiredRole="tenant">
             <TenantProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/tenant/denah"
+        element={
+          <ProtectedRoute requiredRole="tenant">
+            <Suspense fallback={null}>
+              <TenantDenahPage />
+            </Suspense>
           </ProtectedRoute>
         }
       />

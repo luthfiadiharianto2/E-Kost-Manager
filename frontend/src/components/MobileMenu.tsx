@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Home, User, Building2, Plus, CreditCard, Users, FileText } from 'lucide-react';
+import { Menu, X, Home, User, Building2, Plus, CreditCard, Users, FileText, Map as MapIcon } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -19,6 +19,7 @@ const MobileMenu: React.FC = () => {
     { id: 'complaints', label: 'Aduan Penyewa', icon: FileText, to: '/admin/complaints' },
     { id: 'payments', label: 'Pembayaran', icon: CreditCard, to: '/admin/payments' },
     { id: 'finance', label: 'Keuangan', icon: CreditCard, to: '/admin/finance' },
+    { id: 'layout', label: 'Denah Kost', icon: MapIcon, to: '/admin/layout' },
   ];
 
   const tenantItems: Item[] = [
@@ -26,6 +27,7 @@ const MobileMenu: React.FC = () => {
     { id: 'payments', label: 'Pembayaran', icon: CreditCard, to: '/tenant/payments' },
     { id: 'complaints', label: 'Aduan', icon: FileText, to: '/tenant/complaints' },
     { id: 'profile', label: 'Profil', icon: User, to: '/tenant/profile' },
+    { id: 'denah', label: 'Denah', icon: MapIcon, to: '/tenant/denah' },
   ];
 
   const items = user?.role === 'admin' ? adminItems : tenantItems;
