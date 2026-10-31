@@ -291,8 +291,6 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
       // Get all form data
       const allFormData = watch();
 
-      console.log('🔍 OTP dari form:', data.otp);
-      console.log('🔍 All form data:', allFormData);
 
       // Pastikan OTP ada
       if (!data.otp || data.otp.trim() === '') {
@@ -320,10 +318,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
         otp: data.otp.trim(), // Pastikan OTP di-trim
       };
 
-      console.log('📝 Submitting signup data:', signupData);
-
-      const response = await authService.signup(signupData);
-      console.log('✅ Signup response:', response);
+      await authService.signup(signupData);
       
       toast.success('Pendaftaran berhasil! Silakan login.');
       onSwitchToLogin();

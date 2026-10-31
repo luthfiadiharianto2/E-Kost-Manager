@@ -1,6 +1,9 @@
 // File: src/services/paymentService.ts
+//
+// Pembayaran QRIS di backend lama hanyalah stub. Perilaku stub yang sama dipertahankan
+// di sisi client (belum ada integrasi payment gateway).
 
-import { api } from './api';
+import { ApiError } from './supabase';
 
 export interface CreateQRISPaymentRequest {
   invoice_id: string;
@@ -24,43 +27,53 @@ export interface CheckPaymentStatusResponse {
   payment_method?: string;
 }
 
-// Asumsi Anda memiliki tipe untuk riwayat pembayaran,
-// jika tidak, 'any[]' sudah cukup untuk memperbaiki error
 export interface PaymentHistoryItem {
   id: string;
   amount: number;
   status: string;
   created_at: string;
-  // ... (properti lain)
 }
 
+const QRIS_PREFIX = '00020101021226680014ID.CO.QRIS.WWW01189360091600000000000300303UMI51470015ID1020025303350540';
 
 export const paymentService = {
   /**
-   * Create QRIS payment - Generate QRIS code dari backend
+   * Create QRIS payment (stub: QR berlaku 10 menit, status selalu pending)
    */
   async createQRISPayment(data: CreateQRISPaymentRequest): Promise<QRISPaymentResponse> {
-    // TAMBAHKAN TIPE BALASAN DI SINI
-    const response = await api.post<{ data: QRISPaymentResponse }>('/payments/qris/create', data);
-    return response.data.data;
+    if (!data.invoice_id || !(Number(data.amount) >= 1)) {
+      throw new ApiError('Validasi gagal', 422);
+    }
+    return {
+      qris_string: QRIS_PREFIX + (1000 + Math.floor(Math.random() * 9000)),
+      invoice_id: data.invoice_id,
+      amount: Number(data.amount),
+      status: 'pending',
+      expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
+      payment_url: undefined,
+    };
   },
 
   /**
-   * Check payment status - Cek status pembayaran
+   * Check payment status (stub: selalu pending)
    */
   async checkPaymentStatus(invoiceId: string): Promise<CheckPaymentStatusResponse> {
-    // TAMBAHKAN TIPE BALASAN DI SINI
-    const response = await api.get<{ data: CheckPaymentStatusResponse }>(`/payments/qris/status/${invoiceId}`);
-    return response.data.data;
+    return {
+      invoice_id: invoiceId,
+      status: 'pending',
+      paid_at: undefined,
+      payment_method: 'qris',
+    };
   },
 
   /**
-   * Get payment history - Riwayat pembayaran
+   * Get payment history (stub: contoh data)
    */
-  // Tambahkan Tipe Promise (misal: Promise<PaymentHistoryItem[]>)
   async getPaymentHistory(): Promise<PaymentHistoryItem[]> {
-    // TAMBAHKAN TIPE BALASAN DI SINI
-    const response = await api.get<{ data: PaymentHistoryItem[] }>('/payments/history');
-    return response.data.data;
+    const daysAgo = (n: number) => new Date(Date.now() - n * 24 * 60 * 60 * 1000).toISOString();
+    return [
+      { id: 'inv-001', amount: 500000, status: 'paid', created_at: daysAgo(10) },
+      { id: 'inv-002', amount: 450000, status: 'pending', created_at: daysAgo(2) },
+    ];
   },
 };

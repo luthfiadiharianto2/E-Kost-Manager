@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { api } from '../services/api';
+import { testimoniService } from '../services/testimoniService';
 
 type Testimonial = {
   id: string;
@@ -29,10 +29,9 @@ export const TestimonialsRealtime: React.FC<Props> = ({ pollInterval = 10000 }) 
 
     const fetchOnce = async () => {
       try {
-        const res = await api.get('/testimonials');
-        // Expecting an array in res.data; cast defensively
-        const data = (res.data as any) || [];
-        setItems(Array.isArray(data) ? (data as Testimonial[]) : []);
+        // Data dari tabel testimonis di Supabase (polling sebagai mekanisme "realtime")
+        const data = await testimoniService.list();
+        setItems(data);
         setError(null);
       } catch (err: any) {
         setError(err?.response?.data?.message || err.message || 'Gagal memuat testimoni');

@@ -1,0 +1,28 @@
+# Konfigurasi Supabase CLI (lokal). Proyek remote: ybvdlhwbbajtxcqyycgw
+project_id = "e-kost-manager"
+
+[api]
+schemas = ["public", "graphql_public"]
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[auth]
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000"]
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
+otp_length = 6
+otp_expiry = 600
+
+[functions.invite-tenant]
+verify_jwt = true
+
+[functions.validate-invitation]
+verify_jwt = false
+
+[functions.accept-invitation]
+verify_jwt = false

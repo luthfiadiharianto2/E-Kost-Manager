@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { AdminLayout } from '../../components/AdminLayout';
 import { Users, Search, Eye, Edit, Trash2 } from 'lucide-react';
-import { api } from '../../services/api';
+import { invitationService } from '../../services/invitationService';
 
 type TenantApiUser = {
-  id: number;
+  id: string;
   name: string;
   email: string;
   phone?: string | null;
@@ -16,7 +16,7 @@ type TenantApiUser = {
 export const AdminTenantsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [tenants, setTenants] = useState<{
-    id: number;
+    id: string;
     name: string;
     email: string;
     phone: string;
@@ -32,10 +32,7 @@ export const AdminTenantsPage: React.FC = () => {
         setIsLoading(true);
         setError(null);
 
-        const response = await api.get<{ success: boolean; data: TenantApiUser[] }>(
-          '/owner/tenants'
-        );
-        const data = response.data.data || [];
+        const data: TenantApiUser[] = await invitationService.getOwnerTenants();
 
         const mapped = data.map((t) => ({
           id: t.id,

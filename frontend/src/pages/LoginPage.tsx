@@ -1,11 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building2, Users, CreditCard, LogIn, Menu, X } from 'lucide-react';
 import AOS from 'aos';
+import toast from 'react-hot-toast';
+import { testimoniService } from '../services/testimoniService';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const isSendingTestimoni = useRef(false);
+
+  // Form "Hubungi Kami" disimpan sebagai testimoni (tabel testimonis)
+  const handleTestimoniSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isSendingTestimoni.current) return;
+    const form = e.currentTarget;
+    const values = new FormData(form);
+    const nama = String(values.get('nama') || '');
+    const email = String(values.get('email') || '');
+    const pesan = String(values.get('pesan') || '');
+    if (!nama.trim() || !email.trim() || !pesan.trim()) {
+      toast.error('Nama, email, dan pesan wajib diisi');
+      return;
+    }
+    try {
+      isSendingTestimoni.current = true;
+      await testimoniService.create({ nama, email, pesan });
+      form.reset();
+      toast.success('Terima kasih! Testimoni Anda telah terkirim.');
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Gagal mengirim testimoni');
+    } finally {
+      isSendingTestimoni.current = false;
+    }
+  };
 
   useEffect(() => {
     let resizeHandler: (() => void) | null = null;
@@ -281,12 +309,13 @@ export const LoginPage: React.FC = () => {
               <div className="mt-6 h-40 rounded-xl bg-navy-900/5 border border-navy-900/10" data-aos="zoom-in" data-aos-delay="600" />
             </div>
             <div data-aos="fade-left" data-aos-delay="200">
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+              <form className="space-y-4" onSubmit={handleTestimoniSubmit}>
                 <div data-aos="fade-up" data-aos-delay="300">
                   <input 
                     className="w-full rounded-md border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all" 
                     placeholder="Nama" 
                     type="text"
+                    name="nama"
                   />
                 </div>
                 <div data-aos="fade-up" data-aos-delay="400">
@@ -294,12 +323,14 @@ export const LoginPage: React.FC = () => {
                     className="w-full rounded-md border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all" 
                     placeholder="Email" 
                     type="email" 
+                    name="email"
                   />
                 </div>
                 <div data-aos="fade-up" data-aos-delay="500">
                   <textarea 
                     className="w-full rounded-md border border-gray-300 px-4 py-3 h-32 focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all" 
                     placeholder="Pesan" 
+                    name="pesan"
                   />
                 </div>
                 <div data-aos="fade-up" data-aos-delay="600">

@@ -1,8 +1,9 @@
 // Ubah ke true untuk mode mock (frontend-only, tanpa backend)
 const MOCK_AUTH = false;
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User, AuthContextType, LoginFormData } from '../types';
+import React, { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
+import { User, AuthContextType } from '../types';
 import { authService } from '../services/authService';
+import { supabase } from '../services/supabase';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -13,48 +14,65 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const userRef = useRef<User | null>(null);
+  const manualLogout = useRef(false);
+
+  useEffect(() => {
+    userRef.current = user;
+  }, [user]);
 
   useEffect(() => {
     if (MOCK_AUTH) {
       setIsLoading(false);
       return;
     }
-    // Check if user is logged in on app start
+    let active = true;
+
+    // Cek sesi Supabase yang tersimpan saat aplikasi dibuka
     const checkAuth = async () => {
       try {
-        const token = localStorage.getItem('token');
-
-        // Check backend jika token ada
-        if (token) {
+        const { data } = await supabase.auth.getSession();
+        if (data.session) {
           try {
             const userData = await authService.getProfile();
-            setUser(userData);
+            if (active) setUser(userData);
           } catch (error) {
-            localStorage.removeItem('token');
+            await supabase.auth.signOut();
             localStorage.removeItem('user');
           }
         }
       } catch (error) {
-        localStorage.removeItem('token');
         localStorage.removeItem('user');
       } finally {
-        setIsLoading(false);
+        if (active) setIsLoading(false);
       }
     };
     checkAuth();
+
+    // Sesi habis / refresh token gagal -> kembali ke halaman login (pengganti interceptor 401)
+    const { data: listener } = supabase.auth.onAuthStateChange((event) => {
+      if (event !== 'SIGNED_OUT') return;
+      const hadUser = userRef.current !== null;
+      setUser(null);
+      localStorage.removeItem('user');
+      if (hadUser && !manualLogout.current) {
+        window.location.href = '/auth/login';
+      }
+      manualLogout.current = false;
+    });
+
+    return () => {
+      active = false;
+      listener.subscription.unsubscribe();
+    };
   }, []);
 
   const login = async (email: string, password: string) => {
     try {
       setIsLoading(true);
       const response = await authService.login(email, password);
-      // Simpan token terlebih dahulu agar request berikutnya terautentikasi
-      localStorage.setItem('token', response.token);
-
-      // Setelah login, ambil profil terbaru dari backend (termasuk avatar URL)
-      const userData = await authService.getProfile();
-      setUser(userData);
-      return userData;
+      setUser(response.user);
+      return response.user;
     } catch (error) {
       throw error;
     } finally {
@@ -69,9 +87,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       localStorage.removeItem('user');
       return;
     }
-    localStorage.removeItem('token');
+    manualLogout.current = true;
     localStorage.removeItem('user');
     setUser(null);
+    authService.logout().catch(() => {
+      manualLogout.current = false;
+    });
   };
 
   const value: AuthContextType = {

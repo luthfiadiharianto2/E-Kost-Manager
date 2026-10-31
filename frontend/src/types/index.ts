@@ -3,7 +3,7 @@ export interface LoginResponse {
   user: User;
 }
 export interface User {
-  id: number;
+  id: string; // uuid dari Supabase Auth
   name: string;
   username?: string;
   email: string;
@@ -27,7 +27,7 @@ export interface User {
   } | null;
   kosts?: {
     id: number;
-    user_id: number;
+    user_id: string;
     nama_kost: string;
     alamat_kost: string;
     jumlah_kamar: number;

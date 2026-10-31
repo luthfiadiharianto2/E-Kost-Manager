@@ -4,6 +4,7 @@ import { invitationService, InvitationResponse } from '../services/invitationSer
 import toast from 'react-hot-toast';
 
 interface InviteTenantProps {
+  ownerId?: string | number;
   onClose: () => void;
   onSuccess?: () => void;
 }

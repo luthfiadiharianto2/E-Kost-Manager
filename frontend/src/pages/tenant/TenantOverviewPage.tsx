@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TenantLayout } from '../../components/TenantLayout';
 import { User, Home, CheckCircle, Eye } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import TestimonialsRealtime from '../../components/TestimonialsRealtime';
+import { roomService } from '../../services/roomService';
 
 export const TenantOverviewPage: React.FC = () => {
   const navigate = useNavigate();
@@ -15,16 +16,41 @@ export const TenantOverviewPage: React.FC = () => {
     initAOS();
   }, []);
 
-  // Mock data
-  const myKost = {
-    name: 'Kost ABC',
-    address: 'Jl. Merdeka No. 123, Jakarta',
-    room: 'A-101',
-    price: 1500000,
-    facilities: ['AC', 'WiFi', 'Kamar Mandi Dalam', 'Dapur Bersama'],
-    owner: 'Budi Santoso',
-    phone: '081234567890',
-  };
+  // Data kamar penyewa dari Supabase (RPC tenant_my_room)
+  const [myKost, setMyKost] = useState({
+    name: '-',
+    address: '-',
+    room: '-',
+    price: 0,
+    facilities: [] as string[],
+    owner: '-',
+    phone: '-',
+  });
+
+  useEffect(() => {
+    let active = true;
+    roomService
+      .getTenantRoom()
+      .then((data) => {
+        if (!active || !data) return;
+        setMyKost({
+          name: data.kost?.nama_kost || '-',
+          address: data.kost?.alamat_kost || '-',
+          room: data.room.nomor_kamar,
+          price: Number(data.room.harga_sewa) || 0,
+          facilities: (data.room.facilities || '')
+            .split(',')
+            .map((f) => f.trim())
+            .filter(Boolean),
+          owner: data.owner?.name || '-',
+          phone: data.owner?.whatsapp || data.owner?.phone || '-',
+        });
+      })
+      .catch((error) => console.error('Gagal memuat data kamar:', error));
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const paymentHistory = [
     { id: 1, month: 'Januari 2024', amount: 1500000, status: 'paid', date: '2024-01-01', method: 'Transfer Bank' },
