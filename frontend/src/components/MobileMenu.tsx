@@ -52,9 +52,9 @@ const MobileMenu: React.FC = () => {
     const found = items.find((it) => it.to && currentPath.startsWith(it.to));
     if (found) return found.id;
     if (currentPath === '/admin' || currentPath === '/tenant') {
-      return items[0].id;
+      return 'dashboard';
     }
-    return items[0].id;
+    return 'dashboard';
   };
 
   const active = getActiveId();
@@ -80,7 +80,7 @@ const MobileMenu: React.FC = () => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="md:hidden fixed top-4 left-4 z-50 bg-navy-900 text-white p-2 rounded-lg shadow-lg"
+        className="md:hidden fixed top-3 left-4 z-50 bg-navy-900 text-white p-2 rounded-lg shadow-lg"
       >
         <Menu className="w-6 h-6" />
       </button>
@@ -93,18 +93,12 @@ const MobileMenu: React.FC = () => {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-navy-700">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
               <button
                 onClick={handleLogoClick}
                 className="flex items-center"
               >
-                <div className="w-12 h-12 rounded-full bg-accent-400 flex items-center justify-center mr-3 overflow-hidden">
-                  <img src="/img/logo.png" alt="Logo" className="h-12 w-12 object-cover" />
-                </div>
-                <div>
-                  <p className="font-bold text-sm">KOST</p>
-                  <p className="text-xs text-white/70">MANAGER</p>
-                </div>
+                <img src="/img/logo.png" alt="E-Kost Manager" className="h-9 w-auto" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
@@ -115,16 +109,21 @@ const MobileMenu: React.FC = () => {
             </div>
 
             {/* Menu Items */}
-            <nav className="flex-1 p-4">
+            <nav className="flex-1 p-3">
               <button
                 onClick={handleHomeClick}
-                className="w-full flex items-center justify-center mb-6 p-3 rounded-full bg-accent-400/20 hover:bg-yellow-400/30 transition-all duration-200 group"
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm transition-colors ${
+                active === 'dashboard'
+                  ? 'bg-yellow-400 text-navy-900 font-semibold'
+                  : 'font-medium text-white/75 hover:bg-white/10 hover:text-white'
+              }`}
               >
-                <Home className="w-5 h-5 text-yellow-400 mr-3" />
-                <span className="text-white font-medium">Dashboard</span>
+                <Home className="w-5 h-5 shrink-0" />
+                <span>Dashboard</span>
               </button>
+              <p className="mt-5 mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/40">Menu</p>
 
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {items.map((it) => {
                   const isActive = active === it.id;
                   const Icon = it.icon;
@@ -133,14 +132,14 @@ const MobileMenu: React.FC = () => {
                     <button
                       key={it.id}
                       onClick={() => handleClick(it)}
-                      className={`w-full flex items-center p-4 rounded-lg transition-all duration-200 ${
+                      className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-sm transition-colors ${
                         isActive
-                          ? 'bg-yellow-400 text-navy-900 font-semibold shadow-md'
-                          : 'bg-white text-navy-900/90 hover:bg-yellow-50 hover:text-navy-900 hover:shadow-sm'
+                          ? 'bg-yellow-400 text-navy-900 font-semibold'
+                          : 'font-medium text-white/75 hover:bg-white/10 hover:text-white'
                       }`}
                     >
-                      <Icon className="w-5 h-5 mr-3" />
-                      <span className="text-sm">{it.label}</span>
+                      <Icon className="w-5 h-5 shrink-0" />
+                      <span>{it.label}</span>
                     </button>
                   );
                 })}

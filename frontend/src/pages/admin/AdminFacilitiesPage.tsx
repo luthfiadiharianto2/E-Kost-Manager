@@ -281,13 +281,13 @@ export const AdminFacilitiesPage: React.FC = () => {
 
   return (
     <AdminLayout>
-      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-8">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6">
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 bg-blue-500 rounded-lg">
-            <Building2 className="w-6 h-6 text-white" />
+          <div className="p-2.5 bg-blue-500 rounded-lg">
+            <Building2 className="w-5 h-5 text-white" />
           </div>
-          <h2 className="text-3xl font-bold text-gray-900">Fasilitas</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Fasilitas</h2>
         </div>
 
         {/* Info Properti */}
@@ -306,7 +306,7 @@ export const AdminFacilitiesPage: React.FC = () => {
             </div>
             <button
               onClick={() => setActiveTab('edit-property')}
-              className="self-start shrink-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+              className="self-start shrink-0 px-4 py-2 text-sm font-medium bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
             >
               <Edit className="w-4 h-4" />
               Edit Properti
@@ -381,7 +381,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setActiveTab('add-room')}
-                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
+                  className="px-4 py-2 text-sm font-medium bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
                 >
                   <Plus className="w-4 h-4" />
                   Tambah Kamar
@@ -392,7 +392,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                 {rooms.map((room) => (
                   <div
                     key={room.id}
-                    className={`border-2 rounded-lg p-4 ${
+                    className={`flex flex-col border-2 rounded-lg p-4 ${
                       room.isAvailable
                         ? 'border-green-200 bg-green-50'
                         : 'border-gray-200 bg-gray-50'
@@ -420,7 +420,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                         Penyewa: <span className="font-medium">{room.tenant}</span>
                       </p>
                     )}
-                    <div className="flex items-center gap-2">
+                    <div className="mt-auto pt-1 flex items-center gap-2">
                       <button
                         onClick={() => {
                           setEditingRoomId(room.id);
@@ -432,16 +432,17 @@ export const AdminFacilitiesPage: React.FC = () => {
                           });
                           setActiveTab('add-room');
                         }}
-                        className="flex-1 px-3 py-1.5 bg-blue-500 text-white rounded text-sm hover:bg-blue-600 transition-colors flex items-center justify-center gap-1"
+                        className="flex-1 h-9 px-3 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors flex items-center justify-center gap-1.5"
                       >
-                        <Edit className="w-3 h-3" />
+                        <Edit className="w-4 h-4" />
                         Edit
                       </button>
                       <button
                         onClick={() => handleDeleteRoom(room.id)}
-                        className="px-3 py-1.5 bg-red-500 text-white rounded text-sm hover:bg-red-600 transition-colors flex items-center justify-center gap-1"
+                        className="h-9 w-9 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center"
+                        title="Hapus kamar"
                       >
-                        <Trash2 className="w-3 h-3" />
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
@@ -454,7 +455,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                   <p className="text-gray-500 mb-4">Belum ada kamar. Tambah kamar pertama Anda.</p>
                   <button
                     onClick={() => setActiveTab('add-room')}
-                    className="px-6 py-2.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 mx-auto"
+                    className="px-4 py-2 text-sm font-medium bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 mx-auto"
                   >
                     <Plus className="w-5 h-5" />
                     Tambah Kamar
@@ -476,7 +477,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                   name="name"
                   value={propertyForm.name}
                   onChange={handlePropertyInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Masukkan nama properti"
                   required
                 />
@@ -491,7 +492,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                   value={propertyForm.address}
                   onChange={handlePropertyInputChange}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Masukkan alamat lengkap"
                   required
                 />
@@ -506,7 +507,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                   value={propertyForm.description}
                   onChange={handlePropertyInputChange}
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Masukkan deskripsi properti"
                   required
                 />
@@ -521,7 +522,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                   name="facilities"
                   value={propertyForm.facilities}
                   onChange={handlePropertyInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Contoh: WiFi, AC, Kamar Mandi Dalam, Parkir"
                 />
               </div>
@@ -530,13 +531,13 @@ export const AdminFacilitiesPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setActiveTab('rooms')}
-                  className="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="px-4 py-2 text-sm font-medium border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+                  className="px-4 py-2 text-sm font-medium bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
                 >
                   Simpan Perubahan
                 </button>
@@ -559,7 +560,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                     setRoomTypeForm({ name: '', price: '', facilities: '', description: '' });
                     setActiveTab('add-room-type');
                   }}
-                  className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center gap-2"
+                  className="px-4 py-2 text-sm font-medium bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center gap-2"
                 >
                   <Plus className="w-4 h-4" />
                   Tambah Tipe Kamar
@@ -614,7 +615,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                       setRoomTypeForm({ name: '', price: '', facilities: '', description: '' });
                       setActiveTab('add-room-type');
                     }}
-                    className="px-6 py-2.5 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center gap-2 mx-auto"
+                    className="px-4 py-2 text-sm font-medium bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center gap-2 mx-auto"
                   >
                     <Plus className="w-5 h-5" />
                     Tambah Tipe Kamar
@@ -645,7 +646,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                   name="name"
                   value={roomTypeForm.name}
                   onChange={handleRoomTypeInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="Contoh: Standard, Deluxe, Premium"
                   required
                 />
@@ -660,7 +661,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                   name="price"
                   value={roomTypeForm.price}
                   onChange={handleRoomTypeInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="Rp 0"
                   required
                 />
@@ -675,7 +676,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                   value={roomTypeForm.description}
                   onChange={handleRoomTypeInputChange}
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="Deskripsi singkat tentang tipe kamar ini"
                 />
               </div>
@@ -689,7 +690,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                   name="facilities"
                   value={roomTypeForm.facilities}
                   onChange={handleRoomTypeInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   placeholder="Contoh: AC, WiFi, Kamar Mandi Dalam, TV"
                   required
                 />
@@ -703,13 +704,13 @@ export const AdminFacilitiesPage: React.FC = () => {
                     setEditingRoomTypeId(null);
                     setRoomTypeForm({ name: '', price: '', facilities: '', description: '' });
                   }}
-                  className="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="px-4 py-2 text-sm font-medium border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center gap-2"
+                  className="px-4 py-2 text-sm font-medium bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors flex items-center gap-2"
                 >
                   {editingRoomTypeId ? (
                     <>
@@ -738,7 +739,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                   name="roomTypeId"
                   value={roomForm.roomTypeId}
                   onChange={handleRoomInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   required
                 >
                   <option value="">Pilih tipe kamar</option>
@@ -776,7 +777,7 @@ export const AdminFacilitiesPage: React.FC = () => {
                   name="roomNumber"
                   value={roomForm.roomNumber}
                   onChange={handleRoomInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   placeholder="Contoh: A-101"
                   required
                 />
@@ -799,13 +800,13 @@ export const AdminFacilitiesPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setActiveTab('rooms')}
-                  className="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="px-4 py-2 text-sm font-medium border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
+                  className="px-4 py-2 text-sm font-medium bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
                 >
                   <Plus className="w-5 h-5" />
                   Tambah Kamar

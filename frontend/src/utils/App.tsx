@@ -113,7 +113,7 @@ const AppRoutes: React.FC = () => {
         path="/tenant"
         element={
           <ProtectedRoute requiredRole="tenant">
-            <TenantDashboard />
+            <Navigate to="/tenant/overview" replace />
           </ProtectedRoute>
         }
       />

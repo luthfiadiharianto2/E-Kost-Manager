@@ -48,13 +48,13 @@ export const AdminComplaintsPage: React.FC = () => {
 
   return (
     <AdminLayout>
-      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-8">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-orange-500 rounded-lg">
-              <FileText className="w-6 h-6 text-white" />
+            <div className="p-2.5 bg-orange-500 rounded-lg">
+              <FileText className="w-5 h-5 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900">Aduan Penyewa</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Aduan Penyewa</h2>
           </div>
           <div className="flex items-center gap-4">
             <div className="relative">
@@ -64,13 +64,13 @@ export const AdminComplaintsPage: React.FC = () => {
                 placeholder="Cari aduan..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
               />
             </div>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
             >
               <option value="all">Semua Status</option>
               <option value="pending">Pending</option>

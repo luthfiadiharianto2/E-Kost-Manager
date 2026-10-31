@@ -107,11 +107,11 @@ const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     <div>
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-900">Profil</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Profil</h2>
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
-            className="bg-blue-500 text-white px-5 py-2.5 rounded-lg hover:bg-blue-600 transition-colors font-medium"
+            className="bg-blue-500 text-white px-4 py-2 text-sm rounded-lg hover:bg-blue-600 transition-colors font-medium"
           >
             Edit
           </button>
@@ -119,13 +119,13 @@ const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
           <div className="flex items-center gap-3">
             <button
               onClick={handleCancel}
-              className="bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+              className="bg-gray-200 text-gray-700 px-4 py-2 text-sm rounded-lg hover:bg-gray-300 transition-colors font-medium"
             >
               Batal
             </button>
             <button
               onClick={handleSave}
-              className="bg-blue-500 text-white px-5 py-2.5 rounded-lg hover:bg-blue-600 transition-colors font-medium"
+              className="bg-blue-500 text-white px-4 py-2 text-sm rounded-lg hover:bg-blue-600 transition-colors font-medium"
             >
               Simpan
             </button>
@@ -145,7 +145,7 @@ const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="flex-1 max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 max-w-md px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               ) : (
                 <span className="flex-1 text-base font-semibold text-gray-900">{user.name || '-'}</span>
@@ -160,7 +160,7 @@ const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
                   name="username"
                   value={formData.username}
                   onChange={handleInputChange}
-                  className="flex-1 max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 max-w-md px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               ) : (
                 <span className="flex-1 text-base font-semibold text-gray-900">{user.username || '-'}</span>
@@ -175,7 +175,7 @@ const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="flex-1 max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 max-w-md px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               ) : (
                 <span className="flex-1 text-base font-semibold text-gray-900">{user.email || '-'}</span>
@@ -191,7 +191,7 @@ const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
                   value={formData.whatsapp}
                   onChange={handleInputChange}
                   placeholder="+62 812 345 6789"
-                  className="flex-1 max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 max-w-md px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               ) : (
                 <span className="flex-1 text-base font-semibold text-gray-900">{user.whatsapp || user.phone || '-'}</span>
@@ -206,7 +206,7 @@ const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
                   value={formData.address}
                   onChange={handleInputChange}
                   rows={3}
-                  className="flex-1 max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 max-w-md px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               ) : (
                 <span className="flex-1 text-base font-semibold text-gray-900 whitespace-pre-line">{user.address || '-'}</span>
@@ -222,7 +222,7 @@ const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
                   value={formData.password}
                   onChange={handleInputChange}
                   placeholder="Kosongkan jika tidak ingin mengubah password"
-                  className="flex-1 max-w-md px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 max-w-md px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
             )}

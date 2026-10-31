@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TenantLayout } from '../../components/TenantLayout';
-import { Plus, Printer, QrCode, X } from 'lucide-react';
+import { CreditCard, Plus, Printer, QrCode, X } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { paymentService } from '../../services/paymentService';
 import { useAuth } from '../../contexts/AuthContext';
@@ -190,10 +190,15 @@ export const TenantPaymentsPage: React.FC = () => {
 
   return (
     <TenantLayout>
-      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-8">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Pembayaran</h2>
-          <button className="bg-yellow-400 hover:bg-yellow-500 text-navy-900 px-4 py-2 rounded-lg font-semibold transition-colors flex items-center">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-yellow-500 rounded-lg">
+              <CreditCard className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Pembayaran</h2>
+          </div>
+          <button className="self-start sm:self-auto bg-yellow-400 hover:bg-yellow-500 text-navy-900 px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center">
             <Plus className="w-4 h-4 mr-2" />
             Bayar Sekarang
           </button>
@@ -229,17 +234,17 @@ export const TenantPaymentsPage: React.FC = () => {
                     {payment.status === 'Lunas' ? (
                       <button 
                         onClick={() => handleCetak(payment)}
-                        className="bg-yellow-400 hover:bg-yellow-500 text-navy-900 px-3 py-1 rounded text-xs font-semibold flex items-center gap-1"
+                        className="bg-yellow-400 hover:bg-yellow-500 text-navy-900 px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5"
                       >
-                        <Printer className="w-3 h-3" />
+                        <Printer className="w-3.5 h-3.5" />
                         Cetak
                       </button>
                     ) : (
                       <button 
                         onClick={() => handleBayar(payment)}
-                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-semibold flex items-center gap-1"
+                        className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5"
                       >
-                        <QrCode className="w-3 h-3" />
+                        <QrCode className="w-3.5 h-3.5" />
                         Bayar
                       </button>
                     )}
@@ -324,7 +329,7 @@ export const TenantPaymentsPage: React.FC = () => {
                     toast.success('Pembayaran sedang diproses...');
                     setShowQrisModal(false);
                   }}
-                  className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-navy-900 px-6 py-3 rounded-lg font-semibold transition-colors"
+                  className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-navy-900 px-4 py-2 text-sm rounded-lg font-semibold transition-colors"
                 >
                   Konfirmasi Pembayaran
                 </button>
@@ -337,7 +342,7 @@ export const TenantPaymentsPage: React.FC = () => {
                     setShowQrisModal(false);
                     setQrisString('');
                   }}
-                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold transition-colors"
+                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 text-sm rounded-lg font-semibold transition-colors"
                 >
                   Tutup
                 </button>

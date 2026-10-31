@@ -36,18 +36,18 @@ const Sidebar: React.FC = () => {
   const getActiveId = () => {
     // Check current pathname to determine active item
     const currentPath = location.pathname;
-    
+
     // Find item that matches current path
     const found = items.find((it) => it.to && currentPath.startsWith(it.to));
     if (found) return found.id;
-    
+
     // If on /admin (dashboard), return first item
     if (currentPath === '/admin') {
-      return items[0].id;
+      return 'dashboard';
     }
-    
+
     // Otherwise, use the first item by default
-    return items[0].id;
+    return 'dashboard';
   };
 
   const active = getActiveId();
@@ -73,9 +73,9 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <aside className={`hidden md:flex flex-col ${isCollapsed ? 'w-20' : 'w-56'} bg-navy-900 text-white rounded-r-3xl overflow-y-auto overflow-x-hidden py-6 px-4 transition-all duration-300 h-full`}>
+    <aside className={`hidden md:flex flex-col ${isCollapsed ? 'w-20' : 'w-56'} bg-navy-900 text-white rounded-r-3xl overflow-y-auto overflow-x-hidden py-6 px-3 transition-all duration-300 h-full`}>
       {/* Header Section */}
-      <div className={`flex items-center ${isCollapsed ? 'justify-center relative' : 'justify-between'} mb-6`}>
+      <div className={`flex items-center ${isCollapsed ? 'justify-center relative' : 'justify-between pl-2'} mb-8`}>
         {isCollapsed && (
           <button
             onClick={toggleSidebar}
@@ -84,25 +84,21 @@ const Sidebar: React.FC = () => {
             <Menu className="w-4 h-4" />
           </button>
         )}
-        
+
         <button
           onClick={handleLogoClick}
           className={`flex items-center ${isCollapsed ? 'w-full justify-center' : ''}`}
         >
-          <div className="w-12 h-12 rounded-full bg-accent-400 flex items-center justify-center mr-3 overflow-hidden">
-            <img src="/img/logo.png" alt="Logo" className="h-12 w-12 object-cover" />
-          </div>
-          {!isCollapsed && (
-            <div>
-              <p className="font-bold text-sm">KOST</p>
-              <p className="text-xs text-white/70">MANAGER</p>
-            </div>
+          {isCollapsed ? (
+            <img src="/img/logo.png" alt="E-Kost Manager" className="h-10 w-10 object-cover object-left" />
+          ) : (
+            <img src="/img/logo.png" alt="E-Kost Manager" className="h-9 w-auto" />
           )}
         </button>
-        
+
         {!isCollapsed && (
-          <button 
-            onClick={toggleSidebar} 
+          <button
+            onClick={toggleSidebar}
             className="p-2 rounded-md hover:bg-yellow-400/20 hover:text-yellow-400 transition-all duration-200"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -112,7 +108,7 @@ const Sidebar: React.FC = () => {
 
       {/* Home Icon */}
       {isCollapsed && (
-        <button 
+        <button
           onClick={handleHomeClick}
           className="w-full flex items-center justify-center mb-4 p-3 rounded-full bg-accent-400/20 hover:bg-yellow-400/30 transition-all duration-200"
         >
@@ -122,28 +118,36 @@ const Sidebar: React.FC = () => {
 
       <nav className="mt-2 flex-1">
         {!isCollapsed && (
-          <button
-            onClick={handleHomeClick}
-            className="w-full flex items-center justify-center mb-4 p-3 rounded-full bg-primary-800/0 hover:bg-yellow-400/20 hover:text-yellow-400 transition-all duration-200 group"
-          >
-            <Home className="w-5 h-5" />
-          </button>
+          <>
+            <button
+              onClick={handleHomeClick}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
+                active === 'dashboard'
+                  ? 'bg-yellow-400 text-navy-900 font-semibold'
+                  : 'font-medium text-white/75 hover:bg-white/10 hover:text-white'
+              }`}
+            >
+              <Home className="w-5 h-5 shrink-0" />
+              <span>Dashboard</span>
+            </button>
+            <p className="mt-6 mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/40">Menu</p>
+          </>
         )}
 
-        <div className={`mt-2 ${isCollapsed ? 'px-0' : 'px-2'}`}>
+        <div className={`space-y-1 ${isCollapsed ? 'px-0' : ''}`}>
           {items.map((it) => {
             const isActive = active === it.id;
             const Icon = it.icon;
-            
+
             if (isCollapsed) {
               return (
                 <button
                   key={it.id}
                   onClick={() => handleClick(it)}
-                  className={`w-full mb-4 p-3 rounded-lg transition-all duration-200 flex items-center justify-center ${
-                    isActive 
-                      ? 'bg-yellow-400 text-navy-900 shadow-md' 
-                      : 'bg-white text-navy-900/90 hover:bg-yellow-50'
+                  className={`w-full p-3 rounded-lg transition-colors flex items-center justify-center ${
+                    isActive
+                      ? 'bg-yellow-400 text-navy-900'
+                      : 'text-white/75 hover:bg-white/10 hover:text-white'
                   }`}
                   title={it.label}
                 >
@@ -151,18 +155,19 @@ const Sidebar: React.FC = () => {
                 </button>
               );
             }
-            
+
             return (
               <button
                 key={it.id}
                 onClick={() => handleClick(it)}
-                className={`w-full mb-4 py-3 rounded-lg transition-all duration-200 ${
-                  isActive 
-                    ? 'bg-yellow-400 text-navy-900 font-semibold shadow-md' 
-                    : 'bg-white text-navy-900/90 hover:bg-yellow-50 hover:text-navy-900 hover:shadow-sm'
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
+                  isActive
+                    ? 'bg-yellow-400 text-navy-900 font-semibold'
+                    : 'font-medium text-white/75 hover:bg-white/10 hover:text-white'
                 }`}
               >
-                <span className="text-sm">{it.label}</span>
+                <Icon className="w-5 h-5 shrink-0" />
+                <span className="truncate">{it.label}</span>
               </button>
             );
           })}
