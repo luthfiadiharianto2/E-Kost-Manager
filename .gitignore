@@ -1,0 +1,32 @@
+# Dependencies & build
+node_modules/
+dist/
+dist-ssr/
+.vite/
+coverage/
+*.log
+
+# Environment (hanya .env.example yang boleh di-commit)
+.env
+.env.*
+!.env.example
+
+# Vercel & Supabase
+.vercel/
+supabase/.temp/
+supabase/.branches/
+
+# Laravel lama (arsip)
+**/vendor/
+**/backend.zip
+**/storage/logs/
+**/storage/framework/sessions/
+**/storage/framework/cache/
+**/storage/framework/views/
+**/.phpunit.result.cache
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
