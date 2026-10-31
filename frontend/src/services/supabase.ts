@@ -44,6 +44,12 @@ const KNOWN_MESSAGES: Record<string, string> = {
   'Email not confirmed': 'Email belum dikonfirmasi',
   'Token has expired or is invalid': 'OTP tidak valid atau sudah kadaluarsa',
   'User already registered': 'Email sudah terdaftar',
+  // Gagal kirim email dari Supabase Auth (biasanya pengaturan SMTP salah)
+  'Error sending magic link email': 'Gagal mengirim kode OTP ke email. Coba lagi beberapa saat lagi.',
+  'Error sending confirmation email': 'Gagal mengirim kode OTP ke email. Coba lagi beberapa saat lagi.',
+  'Error sending recovery email': 'Gagal mengirim email pemulihan. Coba lagi beberapa saat lagi.',
+  'Email rate limit exceeded': 'Terlalu banyak permintaan kode OTP. Coba lagi beberapa menit lagi.',
+  'email rate limit exceeded': 'Terlalu banyak permintaan kode OTP. Coba lagi beberapa menit lagi.',
 };
 
 /** Ubah error Supabase (auth/PostgREST/storage/functions) menjadi ApiError. */
