@@ -26,7 +26,7 @@ Backend Laravel lama diarsipkan di `legacy-laravel/` dan tidak lagi dipakai.
 
 ## Menjalankan lokal
 
-Prasyarat: Node.js 20.x.
+Prasyarat: Node.js 26.x (Vercel sudah menghentikan Node 20).
 
 ```bash
 cd frontend
@@ -107,6 +107,9 @@ Denah demo tidak ikut di-seed: login sebagai pemilik demo → **Denah Kost** →
 
 ## Deploy ke Vercel
 
+Produksi: **https://e-kost-manager.vercel.app** (project Vercel `luthfi19/e-kost-manager`).
+Env `VITE_SUPABASE_URL` dan `VITE_SUPABASE_PUBLISHABLE_KEY` sudah di-set untuk Production, Preview, dan Development.
+
 Pengaturan project:
 
 | Setting | Nilai |
@@ -116,7 +119,7 @@ Pengaturan project:
 | Install Command | `npm ci` |
 | Build Command | `npm run build` |
 | Output Directory | `dist` |
-| Node.js Version | 20.x |
+| Node.js Version | 26.x (dari `engines` di package.json) |
 
 Lewat CLI:
 
@@ -126,8 +129,11 @@ npx vercel login
 npx vercel link
 npx vercel env add VITE_SUPABASE_URL
 npx vercel env add VITE_SUPABASE_PUBLISHABLE_KEY
-npx vercel --prod
+npx vercel deploy --prod
 ```
+
+Setelah domain produksi diketahui, set secret Edge Function `APP_URL=https://e-kost-manager.vercel.app`
+(tanpa ini link undangan mengarah ke `http://localhost:3000`) dan isi Site URL di Supabase Auth.
 
 `vercel.json` me-rewrite semua path ke `index.html`, jadi refresh di `/admin/facilities` atau
 `/accept-invite?token=...` tidak 404.
