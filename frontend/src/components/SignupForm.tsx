@@ -824,13 +824,14 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
                     {...register('otp', { 
                       required: 'Kode OTP wajib diisi',
                       pattern: {
-                        value: /^[0-9]{6}$/,
-                        message: 'Kode OTP harus 6 digit angka'
+                        // Panjang OTP Supabase dapat diatur 6-8 digit di dashboard Auth
+                        value: /^[0-9]{6,8}$/,
+                        message: 'Kode OTP harus 6-8 digit angka'
                       }
                     })}
                     className="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-center text-2xl tracking-widest text-gray-900 bg-white"
                     placeholder="000000"
-                    maxLength={6}
+                    maxLength={8}
                   />
                   <Key className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 </div>
