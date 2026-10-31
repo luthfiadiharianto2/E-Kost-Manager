@@ -108,6 +108,9 @@ Denah demo tidak ikut di-seed: login sebagai pemilik demo → **Denah Kost** →
 ## Deploy ke Vercel
 
 Produksi: **https://e-kost-manager.vercel.app** (project Vercel `luthfi19/e-kost-manager`).
+
+Repo GitHub `luthfiadiharianto2/E-Kost-Manager` terhubung ke project ini: setiap push ke `main`
+otomatis di-deploy ke produksi, dan push ke branch lain menghasilkan Preview deployment.
 Env `VITE_SUPABASE_URL` dan `VITE_SUPABASE_PUBLISHABLE_KEY` sudah di-set untuk Production, Preview, dan Development.
 
 Pengaturan project:
@@ -121,12 +124,11 @@ Pengaturan project:
 | Output Directory | `dist` |
 | Node.js Version | 26.x (dari `engines` di package.json) |
 
-Lewat CLI:
+Lewat CLI (jalankan dari **root repo**, karena Root Directory project = `frontend`):
 
 ```bash
-cd frontend
 npx vercel login
-npx vercel link
+npx vercel link --project e-kost-manager
 npx vercel env add VITE_SUPABASE_URL
 npx vercel env add VITE_SUPABASE_PUBLISHABLE_KEY
 npx vercel deploy --prod
