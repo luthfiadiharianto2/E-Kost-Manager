@@ -45,3 +45,18 @@ begin
   reset role;
 end $$;
 select * from _rls_result;
+
+-- Pemilik lain (B, uuid acak tanpa data): tidak boleh melihat/mengubah data pemilik A.
+create temp table if not exists _rls_b(test text, result text); truncate _rls_b; grant all on _rls_b to authenticated;
+do $$ declare b uuid := gen_random_uuid(); n int; begin
+  perform set_config('request.jwt.claims', json_build_object('sub', b, 'role','authenticated')::text, true);
+  set local role authenticated;
+  select count(*) into n from public.kamars; insert into _rls_b values ('pemilik lain B: kamars (harap 0)', n::text);
+  select count(*) into n from public.kosts; insert into _rls_b values ('pemilik lain B: kosts (harap 0)', n::text);
+  select count(*) into n from public.owner_rooms(); insert into _rls_b values ('pemilik lain B: owner_rooms (harap 0)', n::text);
+  select count(*) into n from public.owner_tenants(); insert into _rls_b values ('pemilik lain B: owner_tenants (harap 0)', n::text);
+  select count(*) into n from public.invitations; insert into _rls_b values ('pemilik lain B: invitations (harap 0)', n::text);
+  begin update public.kamars set harga_sewa = 1; get diagnostics n=row_count; insert into _rls_b values ('pemilik lain B: ubah kamar A (harap 0 baris)', n::text);
+  exception when others then insert into _rls_b values ('pemilik lain B: ubah kamar A','ditolak: '||sqlerrm); end;
+  reset role; end $$;
+select * from _rls_b;
