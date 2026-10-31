@@ -30,3 +30,6 @@ supabase/.branches/
 Thumbs.db
 .idea/
 .vscode/
+
+# Kredensial demo lokal (jangan di-commit)
+*.local.md
