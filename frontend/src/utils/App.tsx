@@ -1,5 +1,5 @@
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { Suspense, lazy, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from '../contexts/AuthContext.tsx';
 import { ProtectedRoute } from '../components/ProtectedRoute';
@@ -24,6 +24,15 @@ import { UnauthorizedPage } from '../pages/UnauthorizedPage.tsx';
 // Halaman Denah (memuat three.js) dimuat terpisah agar bundle halaman lain tidak membengkak
 const AdminLayoutPage = lazy(() => import('../pages/admin/AdminLayoutPage'));
 const TenantDenahPage = lazy(() => import('../pages/tenant/TenantDenahPage'));
+
+// Pindah halaman selalu mulai dari atas (kecuali tautan #anchor)
+const ScrollToTop: React.FC = () => {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (!hash) window.scrollTo(0, 0);
+  }, [pathname, hash]);
+  return null;
+};
 
 const AppRoutes: React.FC = () => {
   const { user } = useAuth();
@@ -104,7 +113,7 @@ const AppRoutes: React.FC = () => {
         path="/tenant"
         element={
           <ProtectedRoute requiredRole="tenant">
-            <TenantDashboard />
+            <Navigate to="/tenant/overview" replace />
           </ProtectedRoute>
         }
       />
@@ -161,6 +170,7 @@ const App: React.FC = () => {
     <AuthProvider>
       <Router>
         <div className="App">
+          <ScrollToTop />
           <AppRoutes />
           <Toaster
             position="top-right"

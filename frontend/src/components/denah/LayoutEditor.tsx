@@ -34,7 +34,7 @@ interface LayoutEditorProps {
 type Tool = 'place' | 'paint';
 
 const inputClass =
-  'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent';
+  'w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent';
 const labelClass = 'block text-sm font-medium text-gray-700 mb-2';
 const DOOR_LABEL: Record<DoorSide, string> = { n: 'Atas (utara)', e: 'Kanan (timur)', s: 'Bawah (selatan)', w: 'Kiri (barat)' };
 
@@ -226,14 +226,14 @@ export const LayoutEditor: React.FC<LayoutEditorProps> = ({ kostId, rooms, layou
           <button
             type="button"
             onClick={() => applyShape(draft.building_type, gridForm.floors, gridForm.cols, gridForm.rows)}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            className="px-4 py-2 text-sm font-medium bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
           >
             Terapkan Ukuran
           </button>
           <button
             type="button"
             onClick={handleAuto}
-            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
+            className="px-4 py-2 text-sm font-medium bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2"
           >
             <Wand2 className="w-4 h-4" /> Buat denah otomatis
           </button>

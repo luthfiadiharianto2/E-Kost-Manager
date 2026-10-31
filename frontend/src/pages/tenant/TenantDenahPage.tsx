@@ -54,13 +54,13 @@ export const TenantDenahPage: React.FC = () => {
 
   return (
     <TenantLayout>
-      <div className="bg-white rounded-xl shadow-sm p-4 md:p-8">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 bg-blue-500 rounded-lg">
-            <MapIcon className="w-6 h-6 text-white" />
+          <div className="p-2.5 bg-blue-500 rounded-lg">
+            <MapIcon className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">Denah Kost</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Denah Kost</h2>
             {data?.kost && <p className="text-sm text-gray-600">{data.kost.nama_kost}</p>}
           </div>
         </div>

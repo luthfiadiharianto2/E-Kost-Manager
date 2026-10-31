@@ -23,22 +23,22 @@ export const AdminFinancePage: React.FC = () => {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        <div className="bg-white rounded-xl shadow-sm p-8">
+        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 bg-yellow-500 rounded-lg">
-              <CreditCard className="w-6 h-6 text-white" />
+            <div className="p-2.5 bg-yellow-500 rounded-lg">
+              <CreditCard className="w-5 h-5 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900">Keuangan</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Keuangan</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
             {stats.map((stat, idx) => {
               const Icon = stat.icon;
               return (
-                <div key={idx} className="bg-gray-50 rounded-lg p-6">
+                <div key={idx} className="bg-gray-50 rounded-lg p-5">
                   <div className="flex items-center justify-between mb-4">
-                    <div className={`p-3 ${stat.color} rounded-lg`}>
-                      <Icon className="w-6 h-6 text-white" />
+                    <div className={`p-2.5 ${stat.color} rounded-lg`}>
+                      <Icon className="w-5 h-5 text-white" />
                     </div>
                     <span className={`text-sm font-semibold ${
                       stat.trend.startsWith('+') ? 'text-green-600' : 'text-red-600'
@@ -47,14 +47,14 @@ export const AdminFinancePage: React.FC = () => {
                     </span>
                   </div>
                   <p className="text-sm font-medium text-gray-600 mb-1">{stat.label}</p>
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                  <p className="text-xl font-bold text-gray-900 whitespace-nowrap">{stat.value}</p>
                 </div>
               );
             })}
           </div>
 
           <div className="mt-8">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Grafik Pendapatan & Pengeluaran</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Grafik Pendapatan & Pengeluaran</h3>
             <div className="bg-gray-50 rounded-lg p-6">
               <div className="space-y-4">
                 {monthlyData.map((data, idx) => (

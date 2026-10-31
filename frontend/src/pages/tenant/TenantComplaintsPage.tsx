@@ -61,13 +61,13 @@ export const TenantComplaintsPage: React.FC = () => {
 
   return (
     <TenantLayout>
-      <div className="bg-white rounded-xl shadow-sm p-8">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-orange-500 rounded-lg">
-              <FileText className="w-6 h-6 text-white" />
+            <div className="p-2.5 bg-orange-500 rounded-lg">
+              <FileText className="w-5 h-5 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900">Aduan</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Aduan</h2>
           </div>
         </div>
 
@@ -91,7 +91,7 @@ export const TenantComplaintsPage: React.FC = () => {
             <div className="flex justify-end">
               <button 
                 type="submit"
-                className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2.5 rounded-lg font-semibold transition-colors flex items-center gap-2"
+                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 text-sm font-medium rounded-lg font-semibold transition-colors flex items-center gap-2"
               >
                 <Plus className="w-4 h-4" />
                 Kirim Aduan

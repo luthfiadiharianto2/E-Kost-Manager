@@ -64,3 +64,7 @@ export function hasWebGL(): boolean {
 
 export const prefersReducedMotion = () =>
   typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+/** Perangkat sentuh (HP/tablet): jari di atas denah harus tetap bisa men-scroll halaman. */
+export const isCoarsePointer = () =>
+  typeof window !== 'undefined' && !!window.matchMedia?.('(pointer: coarse)').matches;

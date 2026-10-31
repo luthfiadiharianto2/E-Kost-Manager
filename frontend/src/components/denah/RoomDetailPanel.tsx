@@ -99,7 +99,7 @@ export const RoomDetailPanel: React.FC<RoomDetailPanelProps> = ({ room, isOwner,
           <select
             value={selectedTenant}
             onChange={(e) => setSelectedTenant(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
           >
             <option value="">— Kosongkan kamar —</option>
             {tenants.map((t) => (
@@ -116,7 +116,7 @@ export const RoomDetailPanel: React.FC<RoomDetailPanelProps> = ({ room, isOwner,
             type="button"
             onClick={handleAssign}
             disabled={!changed || saving}
-            className="mt-3 w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-3 w-full px-4 py-2 text-sm font-medium bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving ? 'Menyimpan...' : 'Simpan Penghuni'}
           </button>

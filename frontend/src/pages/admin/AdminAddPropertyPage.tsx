@@ -25,12 +25,12 @@ export const AdminAddPropertyPage: React.FC = () => {
 
   return (
     <AdminLayout>
-      <div className="bg-white rounded-xl shadow-sm p-8">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 bg-blue-500 rounded-lg">
-            <Building2 className="w-6 h-6 text-white" />
+          <div className="p-2.5 bg-blue-500 rounded-lg">
+            <Building2 className="w-5 h-5 text-white" />
           </div>
-          <h2 className="text-3xl font-bold text-gray-900">Tambah Properti</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Tambah Properti</h2>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -43,7 +43,7 @@ export const AdminAddPropertyPage: React.FC = () => {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Masukkan nama properti"
               required
             />
@@ -58,7 +58,7 @@ export const AdminAddPropertyPage: React.FC = () => {
               value={formData.address}
               onChange={handleInputChange}
               rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Masukkan alamat lengkap"
               required
             />
@@ -73,7 +73,7 @@ export const AdminAddPropertyPage: React.FC = () => {
               value={formData.description}
               onChange={handleInputChange}
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Masukkan deskripsi properti"
               required
             />
@@ -89,7 +89,7 @@ export const AdminAddPropertyPage: React.FC = () => {
                 name="price"
                 value={formData.price}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Rp 0"
                 required
               />
@@ -104,7 +104,7 @@ export const AdminAddPropertyPage: React.FC = () => {
                 name="capacity"
                 value={formData.capacity}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Jumlah kamar"
                 required
               />
@@ -120,7 +120,7 @@ export const AdminAddPropertyPage: React.FC = () => {
               name="facilities"
               value={formData.facilities}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Contoh: WiFi, AC, Kamar Mandi Dalam"
             />
           </div>
@@ -128,13 +128,13 @@ export const AdminAddPropertyPage: React.FC = () => {
           <div className="flex justify-end gap-4 pt-4">
             <button
               type="button"
-              className="px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 text-sm font-medium border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
             >
               Batal
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+              className="px-4 py-2 text-sm font-medium bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
             >
               <Plus className="w-5 h-5" />
               Tambah Properti

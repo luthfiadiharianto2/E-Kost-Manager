@@ -83,3 +83,17 @@ body {
 .animate-fadeInRight {
   animation: fadeInRight 0.6s ease-out;
 }
+
+/* Tautan #anchor di landing page tidak tertutup navbar fixed (h-24) */
+section[id] {
+  scroll-margin-top: 6rem;
+}
+
+/* Hormati pengaturan "kurangi animasi": konten AOS langsung tampil */
+@media (prefers-reduced-motion: reduce) {
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

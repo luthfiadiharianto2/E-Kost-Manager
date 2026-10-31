@@ -102,15 +102,15 @@ export const AdminLayoutPage: React.FC = () => {
 
   return (
     <AdminLayout>
-      <div className="bg-white rounded-xl shadow-sm p-4 md:p-8">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6">
         {/* Header */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="p-3 bg-blue-500 rounded-lg">
-              <MapIcon className="w-6 h-6 text-white" />
+            <div className="p-2.5 bg-blue-500 rounded-lg">
+              <MapIcon className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-gray-900">Denah Kost</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Denah Kost</h2>
               {data?.kost && <p className="text-sm text-gray-600">{data.kost.nama_kost}</p>}
             </div>
           </div>
@@ -121,7 +121,7 @@ export const AdminLayoutPage: React.FC = () => {
                 setKostId(Number(e.target.value));
                 setTab('view');
               }}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               aria-label="Pilih kost"
             >
               {kosts.map((k) => (
@@ -184,14 +184,14 @@ export const AdminLayoutPage: React.FC = () => {
                     <button
                       onClick={handleCreateAuto}
                       disabled={creating}
-                      className="px-6 py-2.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 disabled:opacity-50"
+                      className="px-4 py-2 text-sm font-medium bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 disabled:opacity-50"
                     >
                       <Wand2 className="w-5 h-5" />
                       {creating ? 'Membuat...' : 'Buat denah otomatis'}
                     </button>
                     <button
                       onClick={() => setTab('edit')}
-                      className="px-6 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+                      className="px-4 py-2 text-sm font-medium bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
                     >
                       <PencilRuler className="w-5 h-5" />
                       Atur manual

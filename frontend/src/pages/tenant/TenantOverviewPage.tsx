@@ -11,7 +11,8 @@ export const TenantOverviewPage: React.FC = () => {
   useEffect(() => {
     const initAOS = async () => {
       const AOS = (await import('aos')).default;
-      AOS.init({ duration: 600, easing: 'ease-in-out', once: true });
+      // offset 0 + top-bottom: kartu di dasar halaman tetap muncul walau halaman pendek
+      AOS.init({ duration: 500, easing: 'ease-in-out', once: true, offset: 0, anchorPlacement: 'top-bottom', disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches });
     };
     initAOS();
   }, []);
@@ -105,7 +106,7 @@ export const TenantOverviewPage: React.FC = () => {
   return (
     <TenantLayout>
       {/* Welcome Section */}
-      <div className="grid md:grid-cols-3 gap-6 mb-8">
+      <div className="grid lg:grid-cols-3 gap-6 mb-8">
         {/* Welcome Card */}
         <div className="bg-white rounded-xl shadow-sm p-6" data-aos="fade-up">
           <div className="flex items-center mb-4">
@@ -123,7 +124,7 @@ export const TenantOverviewPage: React.FC = () => {
         </div>
 
         {/* Room Card */}
-        <div className="md:col-span-2 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl shadow-lg p-6" data-aos="fade-up" data-aos-delay="100">
+        <div className="lg:col-span-2 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-xl shadow-lg p-6" data-aos="fade-up" data-aos-delay="100">
           <div className="mb-4">
             <h3 className="text-lg font-semibold text-navy-900 mb-1">Kamar Mawar</h3>
             <p className="text-4xl font-bold text-navy-900">No. 1</p>
