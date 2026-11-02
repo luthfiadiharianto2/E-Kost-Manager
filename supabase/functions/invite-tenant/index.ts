@@ -33,13 +33,18 @@ async function sendInvitationEmail(to: string, tenantName: string | null, ownerN
         Jika tombol tidak berfungsi, salin link ini: <br>${escapeHtml(acceptUrl)}</p>
     </div>`;
 
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from, to: [to], subject: `Undangan bergabung di ${kostName}`, html }),
-  });
-  if (!res.ok) console.error('Resend error', res.status, await res.text());
-  return { sent: res.ok, configured: true };
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from, to: [to], subject: `Undangan bergabung di ${kostName}`, html }),
+    });
+    if (!res.ok) console.error('Resend error', res.status, await res.text());
+    return { sent: res.ok, configured: true };
+  } catch (e) {
+    console.error('Resend fetch gagal', (e as Error).message);
+    return { sent: false, configured: true };
+  }
 }
 
 Deno.serve(async (req) => {
@@ -79,52 +84,59 @@ Deno.serve(async (req) => {
     return fail('Email sudah terdaftar', 422, { email: ['Email sudah terdaftar'] });
   }
 
+  const columns = 'id, owner_id, email, name, token, expires_at, is_used, created_at';
+
+  // Undangan aktif untuk email yang sama dipakai ulang (link yang sama dikirim lagi),
+  // agar pemilik tetap bisa mendapatkan link bila email pertama tidak sampai
   const { data: active } = await admin
     .from('invitations')
-    .select('id')
+    .select(columns)
     .eq('owner_id', ownerId)
     .eq('email', email)
     .eq('is_used', false)
     .gt('expires_at', new Date().toISOString())
+    .order('created_at', { ascending: false })
     .limit(1);
-  if (active && active.length > 0) return fail('Undangan untuk email ini masih aktif', 422);
+  const reused = active && active.length > 0 ? active[0] : null;
 
-  const token = randomToken();
-  const { data: invitation, error: insertError } = await admin
-    .from('invitations')
-    .insert({
-      owner_id: ownerId,
-      email,
-      name: name || null,
-      token,
-      expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-    })
-    .select('id, owner_id, email, name, token, expires_at, is_used, created_at')
-    .single();
-  if (insertError || !invitation) {
-    console.error('insert invitation', insertError?.message);
-    return fail('Gagal membuat undangan', 500);
+  let invitation = reused;
+  if (!invitation) {
+    const { data: created, error: insertError } = await admin
+      .from('invitations')
+      .insert({
+        owner_id: ownerId,
+        email,
+        name: name || null,
+        token: randomToken(),
+        expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      })
+      .select(columns)
+      .single();
+    if (insertError || !created) {
+      console.error('insert invitation', insertError?.message);
+      return fail('Gagal membuat undangan', 500);
+    }
+    invitation = created;
   }
 
   const appUrl = (Deno.env.get('APP_URL') || 'http://localhost:3000').replace(/\/+$/, '');
-  const acceptUrl = `${appUrl}/accept-invite?token=${token}`;
+  const acceptUrl = `${appUrl}/accept-invite?token=${invitation.token}`;
   const ownerProfile = Array.isArray(owner.owner_profiles) ? owner.owner_profiles[0] : owner.owner_profiles;
   const kostName = ownerProfile?.nama_kost || 'Kost';
 
-  const mail = await sendInvitationEmail(email, name || null, owner.name, kostName, acceptUrl);
-  if (mail.configured && !mail.sent) {
-    await admin.from('invitations').delete().eq('id', invitation.id);
-    return fail('Gagal mengirim email undangan. Silakan coba lagi.', 502);
-  }
+  // Undangan tetap berlaku walau email gagal: pemilik masih bisa membagikan link secara manual
+  const mail = await sendInvitationEmail(email, name || invitation.name || null, owner.name, kostName, acceptUrl);
 
   return json(
     {
       success: true,
       message: mail.sent
         ? `Undangan berhasil dikirim ke ${email}`
-        : `Undangan dibuat untuk ${email}, tetapi email belum dikirim (RESEND_API_KEY/MAIL_FROM belum diatur). Bagikan link secara manual.`,
-      data: { invitation, accept_url: acceptUrl, email_sent: mail.sent },
+        : mail.configured
+          ? `Undangan dibuat untuk ${email}, tetapi email gagal dikirim. Bagikan link secara manual.`
+          : `Undangan dibuat untuk ${email}, tetapi email belum dikirim (RESEND_API_KEY/MAIL_FROM belum diatur). Bagikan link secara manual.`,
+      data: { invitation, accept_url: acceptUrl, email_sent: mail.sent, email_configured: mail.configured, reused: !!reused },
     },
-    201,
+    reused ? 200 : 201,
   );
 });
