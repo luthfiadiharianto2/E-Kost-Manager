@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, CheckCircle, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { invitationService } from '../services/invitationService';
+import { resolveAcceptInviteView } from './acceptInviteView';
 
 export const AcceptInvitePage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -82,7 +83,9 @@ export const AcceptInvitePage: React.FC = () => {
     }
   };
 
-  if (loading) {
+  const view = resolveAcceptInviteView(loading, invitation);
+
+  if (view === 'loading') {
     return (
       <div className="min-h-screen bg-navy-900 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
@@ -93,7 +96,8 @@ export const AcceptInvitePage: React.FC = () => {
     );
   }
 
-  if (!invitation || error) {
+  // Only token-load failure — form/submit `error` must stay on the password form.
+  if (view === 'invalid') {
     return (
       <div className="min-h-screen bg-navy-900 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">

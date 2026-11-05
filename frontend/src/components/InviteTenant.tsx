@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Mail, User, Send, CheckCircle } from 'lucide-react';
+import { X, Mail, User, Send, CheckCircle, Link2, Share2, Copy } from 'lucide-react';
 import { invitationService, InvitationResponse } from '../services/invitationService';
 import toast from 'react-hot-toast';
 
@@ -15,7 +15,15 @@ export const InviteTenant: React.FC<InviteTenantProps> = ({ onClose, onSuccess }
   const [loading, setLoading] = useState<boolean>(false);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [invitationLink, setInvitationLink] = useState<string>('');
+  const [emailSent, setEmailSent] = useState<boolean>(false);
+  const [emailConfigured, setEmailConfigured] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+
+  // Pesan siap kirim untuk WhatsApp/chat bila email otomatis belum aktif
+  const shareText = () =>
+    `Halo${name ? ` ${name}` : ''}, Anda diundang bergabung sebagai penyewa di E-Kost Manager.\n\n` +
+    `1. Buka link ini dan buat password (berlaku 7 hari):\n${invitationLink}\n\n` +
+    `2. Setelah itu masuk di ${window.location.origin}/auth/login dengan email ${email} dan password tadi.`;
 
   const handleSubmit = async (): Promise<void> => {
     setError('');
@@ -39,9 +47,13 @@ export const InviteTenant: React.FC<InviteTenantProps> = ({ onClose, onSuccess }
         name: name || undefined,
       });
 
+      const sent = !!response.data.email_sent;
       setInvitationLink(response.data.accept_url);
+      setEmailSent(sent);
+      setEmailConfigured(!!response.data.email_configured);
       setShowSuccess(true);
-      toast.success('Undangan berhasil dikirim!');
+      if (sent) toast.success('Undangan berhasil dikirim!');
+      else toast('Undangan dibuat. Kirim link ke penyewa lewat WhatsApp/chat.', { icon: '🔗' });
       
       if (onSuccess) {
         onSuccess();
@@ -61,11 +73,18 @@ export const InviteTenant: React.FC<InviteTenantProps> = ({ onClose, onSuccess }
     toast.success('Link berhasil disalin!');
   };
 
+  const handleCopyMessage = (): void => {
+    navigator.clipboard.writeText(shareText());
+    toast.success('Pesan undangan disalin!');
+  };
+
   const handleClose = (): void => {
     setEmail('');
     setName('');
     setShowSuccess(false);
     setInvitationLink('');
+    setEmailSent(false);
+    setEmailConfigured(false);
     setError('');
     onClose();
   };
@@ -75,19 +94,47 @@ export const InviteTenant: React.FC<InviteTenantProps> = ({ onClose, onSuccess }
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
           <div className="p-6 text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="w-10 h-10 text-green-600" />
+            <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${emailSent ? 'bg-green-100' : 'bg-yellow-100'}`}>
+              {emailSent ? <CheckCircle className="w-10 h-10 text-green-600" /> : <Link2 className="w-9 h-9 text-yellow-600" />}
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
-              Undangan Berhasil Dikirim!
+            <h2 className="text-xl font-bold text-gray-900 mb-2">
+              {emailSent ? 'Undangan Berhasil Dikirim!' : 'Undangan Dibuat'}
             </h2>
-            <p className="text-gray-600 mb-6">
-              Email undangan telah dikirim ke <strong>{email}</strong>
-            </p>
+            {emailSent ? (
+              <p className="text-sm text-gray-600 mb-6">
+                Email undangan telah dikirim ke <strong>{email}</strong>. Minta penyewa memeriksa folder Spam/Promosi bila belum masuk.
+              </p>
+            ) : (
+              <p className="text-sm text-gray-600 mb-6">
+                {emailConfigured ? 'Email undangan gagal dikirim' : 'Email otomatis belum aktif, jadi undangan belum terkirim'} ke{' '}
+                <strong>{email}</strong>. Kirim link di bawah ke penyewa lewat WhatsApp atau chat.
+              </p>
+            )}
 
-            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+            {!emailSent && (
+              <div className="flex flex-col sm:flex-row gap-2 mb-4">
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent(shareText())}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-2"
+                >
+                  <Share2 className="w-4 h-4" />
+                  Kirim lewat WhatsApp
+                </a>
+                <button
+                  onClick={handleCopyMessage}
+                  className="flex-1 px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-2"
+                >
+                  <Copy className="w-4 h-4" />
+                  Salin pesan
+                </button>
+              </div>
+            )}
+
+            <div className="bg-gray-50 rounded-lg p-4 mb-4 text-left">
               <p className="text-sm font-medium text-gray-700 mb-2">
-                Link Undangan (Untuk Development)
+                Link Undangan
               </p>
               <div className="flex gap-2">
                 <input
@@ -104,9 +151,14 @@ export const InviteTenant: React.FC<InviteTenantProps> = ({ onClose, onSuccess }
                 </button>
               </div>
               <p className="text-xs text-gray-500 mt-2">
-                Link ini dapat dibagikan manual jika diperlukan
+                Berlaku 7 hari dan hanya bisa dipakai sekali.
               </p>
             </div>
+
+            <p className="text-xs text-gray-500 mb-6 text-left">
+              Penyewa belum punya akun sampai membuka link ini dan membuat password. Setelah itu penyewa masuk
+              di halaman Login dengan email <strong>{email}</strong> dan password tersebut.
+            </p>
 
             <button
               onClick={handleClose}

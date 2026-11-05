@@ -16,6 +16,10 @@ export interface InvitationResponse {
       token: string;
     };
     accept_url: string;
+    /** false bila email otomatis belum dikonfigurasi di Edge Function */
+    email_sent?: boolean;
+    /** true bila email otomatis sudah dikonfigurasi (meski pengiriman bisa saja gagal) */
+    email_configured?: boolean;
   };
 }
 

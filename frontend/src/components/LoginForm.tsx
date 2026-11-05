@@ -205,6 +205,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup }) => {
               Daftar sebagai pemilik
             </button>
           </p>
+          <p className="mt-2 text-xs text-gray-500">
+            Penyewa: buka dulu link undangan dari pemilik kost untuk membuat password, lalu masuk di sini.
+          </p>
         </div>
       </div>
     </div>
